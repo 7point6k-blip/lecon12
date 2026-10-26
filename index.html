@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>lecon12　過去分詞の異端児たち</title>
+<title>打倒10/28 過去分詞の異端児たち</title>
 <style>
 /* Layout: one plain column, top-aligned so the phone keyboard never covers the input */
 :root{--bg:#ffffff;--fg:#111111;--sub:#777777;--line:#d6d6d6;--ok:#1a7f37;--ng:#cf222e;--btn:#111111;--btnfg:#ffffff;--field:#f6f6f6}
@@ -55,11 +55,11 @@ li .you{display:block;font-size:13px;color:var(--ng);text-decoration:line-throug
 <body>
 
 <div class="wrap">
-  <h1>lecon12　過去分詞の異端児たち</h1>
+  <h1>打倒10/28 過去分詞の異端児たち</h1>
 
   <section id="quiz">
     <div class="wrap">
-      <div class="top"><span id="num">1 / 12</span><button class="link" type="button" id="quitBtn">中断</button></div>
+      <div class="top"><span id="num">1 / 12</span><button class="link" type="button" id="quitBtn">切なく諦める</button></div>
       <div class="q">
         <div class="inf" id="inf"></div>
         <div class="mean" id="mean"></div>
@@ -67,7 +67,7 @@ li .you{display:block;font-size:13px;color:var(--ng);text-decoration:line-throug
       <form id="form" autocomplete="off">
         <input id="ans" type="text" placeholder="思い出せ僕" aria-label="答え" autocapitalize="none" autocorrect="off" autocomplete="off" spellcheck="false" enterkeyhint="go">
         <div class="fb" id="fb"></div>
-        <button class="btn" type="submit" id="mainBtn">答える</button>
+        <button class="btn" type="submit" id="mainBtn">かます</button>
       </form>
     </div>
   </section>
@@ -77,8 +77,8 @@ li .you{display:block;font-size:13px;color:var(--ng);text-decoration:line-throug
       <div class="score" id="score"></div>
       <ul id="list"></ul>
       <div class="actions">
-        <button class="btn" type="button" id="retryWrong">間違えたのだけもう一回</button>
-        <button class="btn sub" type="button" id="retryAll">最初からやり直す</button>
+        <button class="btn" type="button" id="retryWrong">みすったやつ</button>
+        <button class="btn sub" type="button" id="retryAll">人生の原点へ戻る</button>
       </div>
     </div>
   </section>
@@ -111,7 +111,7 @@ function render(){
   $("num").textContent=`${idx+1} / ${deck.length}`;
   ans.value="";ans.className="";
   $("fb").className="fb";$("fb").textContent="";
-  $("mainBtn").textContent="答える";
+  $("mainBtn").textContent="かます";
   ans.focus({preventScroll:true});
 }
 function judge(){
@@ -120,11 +120,11 @@ function judge(){
   answered=true;
   const fb=$("fb");
   if(norm(given)===norm(v.pp)){
-    ok++;ans.className="ok";fb.className="fb ok";fb.innerHTML=`○ <b>${v.pp}</b>`;
+    ok++;ans.className="ok";fb.className="fb ok";fb.innerHTML=`○ いいぞ僕`;
   }else{
-    wrong.push({...v,you:given});ans.className="ng";fb.className="fb ng";fb.innerHTML=`× 正解は <b>${v.pp}</b>`;
+    wrong.push({...v,you:given});ans.className="ng";fb.className="fb ng";fb.innerHTML=`× 次こそきめろ僕<br><b>${v.pp}</b>`;
   }
-  $("mainBtn").textContent=idx<deck.length-1?"次へ":"結果を見る";
+  $("mainBtn").textContent=idx<deck.length-1?"次":"結果を見る";
 }
 function next(){idx<deck.length-1?(idx++,render()):finish()}
 function finish(){
