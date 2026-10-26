@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>lecon12　過去分詞の異端児たち</title>
+<style>
+/* Layout: one plain column, top-aligned so the phone keyboard never covers the input */
+:root{--bg:#ffffff;--fg:#111111;--sub:#777777;--line:#d6d6d6;--ok:#1a7f37;--ng:#cf222e;--btn:#111111;--btnfg:#ffffff;--field:#f6f6f6}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#161616;--fg:#eeeeee;--sub:#999999;--line:#3a3a3a;--ok:#4cc26b;--ng:#ff6b6b;--btn:#eeeeee;--btnfg:#161616;--field:#222222;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#161616;--fg:#eeeeee;--sub:#999999;--line:#3a3a3a;--ok:#4cc26b;--ng:#ff6b6b;--btn:#eeeeee;--btnfg:#161616;--field:#222222;color-scheme:dark}
+
+*{box-sizing:border-box}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;font-size:16px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px 32px;
+  touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.wrap{max-width:480px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+h1{font-size:17px;font-weight:700;margin:0;text-wrap:balance}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;font-variant-numeric:tabular-nums;color:var(--sub);font-size:15px}
+button{font:inherit;font-size:16px;touch-action:manipulation;cursor:pointer}
+.btn{width:100%;min-height:50px;border-radius:8px;border:1px solid var(--btn);background:var(--btn);color:var(--btnfg);font-weight:700}
+.btn.sub{background:transparent;color:var(--fg);border-color:var(--line);font-weight:400}
+.link{background:none;border:none;color:var(--sub);text-decoration:underline;padding:8px 4px;min-height:44px}
+:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+
+.q{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:24px 0;text-align:center}
+.inf{font-family:Georgia,"Times New Roman",serif;font-size:40px;font-weight:700;line-height:1.2;word-break:break-word}
+.mean{color:var(--sub);font-size:14px;margin-top:4px}
+#ans{display:block;width:100%;font-size:24px;font-family:Georgia,"Times New Roman",serif;text-align:center;padding:12px;min-height:56px;
+  border:1px solid var(--line);border-radius:8px;background:var(--field);color:var(--fg);-webkit-appearance:none;appearance:none}
+#ans:focus{outline:none;border-color:var(--fg)}
+#ans.ok{border-color:var(--ok);color:var(--ok)}
+#ans.ng{border-color:var(--ng);color:var(--ng);text-decoration:line-through}
+form{display:flex;flex-direction:column;gap:12px}
+.fb{text-align:center;font-size:16px;min-height:24px}
+.fb.ok{color:var(--ok)}
+.fb.ng{color:var(--ng)}
+.fb b{font-family:Georgia,"Times New Roman",serif;font-size:22px;color:var(--fg)}
+
+.score{font-size:40px;font-weight:700;font-variant-numeric:tabular-nums;text-align:center;padding:16px 0}
+.score span{font-size:20px;color:var(--sub);font-weight:400}
+ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+li{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+li .v{font-family:Georgia,"Times New Roman",serif;font-size:18px}
+li .p{font-family:Georgia,"Times New Roman",serif;font-size:18px;font-weight:700;text-align:right}
+li .you{display:block;font-size:13px;color:var(--ng);text-decoration:line-through;font-weight:400}
+.allok{text-align:center;color:var(--ok);margin:0}
+.actions{display:flex;flex-direction:column;gap:10px}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <h1>lecon12　過去分詞の異端児たち</h1>
+
+  <section id="quiz">
+    <div class="wrap">
+      <div class="top"><span id="num">1 / 12</span><button class="link" type="button" id="quitBtn">中断</button></div>
+      <div class="q">
+        <div class="inf" id="inf"></div>
+        <div class="mean" id="mean"></div>
+      </div>
+      <form id="form" autocomplete="off">
+        <input id="ans" type="text" placeholder="思い出せ僕" aria-label="答え" autocapitalize="none" autocorrect="off" autocomplete="off" spellcheck="false" enterkeyhint="go">
+        <div class="fb" id="fb"></div>
+        <button class="btn" type="submit" id="mainBtn">答える</button>
+      </form>
+    </div>
+  </section>
+
+  <section id="result" hidden>
+    <div class="wrap">
+      <div class="score" id="score"></div>
+      <ul id="list"></ul>
+      <div class="actions">
+        <button class="btn" type="button" id="retryWrong">間違えたのだけもう一回</button>
+        <button class="btn sub" type="button" id="retryAll">最初からやり直す</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+const ALL=[
+  ["être","été","〜である"],["faire","fait","する・作る"],["vouloir","voulu","欲しい・〜したい"],
+  ["voir","vu","見る・会う"],["avoir","eu","持つ"],["prendre","pris","取る・乗る"],
+  ["savoir","su","知っている"],["dire","dit","言う"],["venir","venu","来る"],
+  ["connaître","connu","知る"],["attendre","attendu","待つ"],["pouvoir","pu","できる"]
+].map(([inf,pp,m])=>({inf,pp,m}));
+
+const $=id=>document.getElementById(id);
+const ans=$("ans");
+let deck=[],idx=0,ok=0,wrong=[],answered=false;
+
+const norm=s=>s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/\s/g,"");
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function start(list){
+  deck=shuffle(list);idx=0;ok=0;wrong=[];
+  $("result").hidden=true;$("quiz").hidden=false;window.scrollTo(0,0);
+  render();
+}
+function render(){
+  const v=deck[idx];answered=false;
+  $("inf").textContent=v.inf;$("mean").textContent=v.m;
+  $("num").textContent=`${idx+1} / ${deck.length}`;
+  ans.value="";ans.className="";
+  $("fb").className="fb";$("fb").textContent="";
+  $("mainBtn").textContent="答える";
+  ans.focus({preventScroll:true});
+}
+function judge(){
+  const v=deck[idx],given=ans.value.trim();
+  if(!given){ans.focus();return}
+  answered=true;
+  const fb=$("fb");
+  if(norm(given)===norm(v.pp)){
+    ok++;ans.className="ok";fb.className="fb ok";fb.innerHTML=`○ <b>${v.pp}</b>`;
+  }else{
+    wrong.push({...v,you:given});ans.className="ng";fb.className="fb ng";fb.innerHTML=`× 正解は <b>${v.pp}</b>`;
+  }
+  $("mainBtn").textContent=idx<deck.length-1?"次へ":"結果を見る";
+}
+function next(){idx<deck.length-1?(idx++,render()):finish()}
+function finish(){
+  const total=answered?idx+1:idx;
+  $("score").innerHTML=`${ok}<span> / ${total}</span>`;
+  $("list").innerHTML=wrong.length
+    ?wrong.map(w=>`<li><span class="v">${w.inf}</span><span class="p">${w.pp}<span class="you">${esc(w.you)}</span></span></li>`).join("")
+    :(total?'<li style="justify-content:center;border-bottom:none"><p class="allok">全問正解</p></li>':"");
+  $("list").style.borderTop=wrong.length?"":"none";
+  $("retryWrong").hidden=!wrong.length;
+  ans.blur();
+  $("quiz").hidden=true;$("result").hidden=false;window.scrollTo(0,0);
+}
+
+// 答えたあとは入力を固定（readonlyにするとスマホのキーボードが閉じるので使わない）
+ans.addEventListener("beforeinput",e=>{if(answered)e.preventDefault()});
+$("form").addEventListener("submit",e=>{e.preventDefault();answered?next():judge()});
+// ボタンを押してもキーボードが閉じないように
+$("mainBtn").addEventListener("pointerdown",e=>{if(document.activeElement===ans)e.preventDefault()});
+$("quitBtn").addEventListener("click",finish);
+$("retryWrong").addEventListener("click",()=>start(wrong.map(({you,...v})=>v)));
+$("retryAll").addEventListener("click",()=>start(ALL));
+
+start(ALL);
+</script>
+
+</body>
+</html>
